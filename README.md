@@ -3,7 +3,7 @@
 [Appbrewery](https://www.appbrewery.co/): The Complete Flutter Development Bootcamp Using Dart 
 
 
-![Finished App](https://github.com/GDG-Uzhhorod/Appbrewery-Challenge-6-Xylophone/blob/master/screen.jpg)
+![Finished App](https://github.com/GDG-Uzhhorod/Appbrewery-Challenge-7-Quizzler/blob/master/Hnet-image.gif)
 
 
 
