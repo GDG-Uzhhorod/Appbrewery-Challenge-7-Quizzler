@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter_quizzler/question.dart';
 
 class QuizBrain {
@@ -35,6 +37,18 @@ class QuizBrain {
     if (_questionNumber < _questions.length - 1) {
       _questionNumber++;
     }
+  }
+
+  bool isFinished() {
+    if (_questionNumber == _questions.length - 1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void reset() {
+    _questionNumber = 0;
   }
 
   String getQuestiontTxt() {

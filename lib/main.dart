@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_quizzler/quiz_braine.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 QuizBrain _quizBrain = QuizBrain();
 
@@ -98,20 +99,46 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   void _checkAnswer(bool userPicktAnswer) {
-    bool correctAnswer = _quizBrain.getQuestionAnswer();
-    if (correctAnswer == userPicktAnswer) {
-      scoreKeeper.add(Icon(
-        Icons.check,
-        color: Colors.green,
-      ));
-    } else {
-      scoreKeeper.add(Icon(
-        Icons.close,
-        color: Colors.red,
-      ));
-    }
     setState(() {
-      _quizBrain.nextQuestion();
+      if (_quizBrain.isFinished()) {
+        Alert(
+          context: context,
+          type: AlertType.info,
+          title: "Quize is done!",
+          desc: "We back to start",
+          buttons: [
+            DialogButton(
+              child: Text(
+                "Ok",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+              onPressed: () {
+                setState(() {
+                  _quizBrain.reset();
+                  scoreKeeper = [];
+                  Navigator.pop(context);
+                });
+              },
+              width: 120,
+            )
+          ],
+        ).show();
+      } else {
+        bool correctAnswer = _quizBrain.getQuestionAnswer();
+        if (correctAnswer == userPicktAnswer) {
+          scoreKeeper.add(Icon(
+            Icons.check,
+            color: Colors.green,
+          ));
+        } else {
+          scoreKeeper.add(Icon(
+            Icons.close,
+            color: Colors.red,
+          ));
+        }
+
+        _quizBrain.nextQuestion();
+      }
     });
   }
 }
