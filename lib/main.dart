@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_quizzler/quiz_braine.dart';
+
+QuizBrain _quizBrain = QuizBrain();
+
 void main() => runApp(Quizzler());
 
 class Quizzler extends StatelessWidget {
@@ -25,14 +29,7 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  List scoreKeeper = [];
-  List questions = [
-    'You can lead a cow down stairs but not up stairs.',
-    'Approximately one quarter of human bones are in the feet.',
-    'A slug\'s blood is green.'
-  ];
-
-  int questionNumber = 0;
+  List<Icon> scoreKeeper = [];
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +43,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                questions[questionNumber],
+                _quizBrain.getQuestiontTxt(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -70,7 +67,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                _incraseWuestionNumber();
+                _checkAnswer(true);
               },
             ),
           ),
@@ -88,30 +85,33 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                _incraseWuestionNumber();
+                _checkAnswer(false);
               },
             ),
           ),
         ),
         Row(
-          children: <Widget>[
-            Icon(
-              Icons.check,
-              color: Colors.green,
-            ),
-            Icon(
-              Icons.close,
-              color: Colors.red,
-            ),
-          ],
+          children: scoreKeeper,
         )
       ],
     );
   }
 
-  _incraseWuestionNumber() {
+  void _checkAnswer(bool userPicktAnswer) {
+    bool correctAnswer = _quizBrain.getQuestionAnswer();
+    if (correctAnswer == userPicktAnswer) {
+      scoreKeeper.add(Icon(
+        Icons.check,
+        color: Colors.green,
+      ));
+    } else {
+      scoreKeeper.add(Icon(
+        Icons.close,
+        color: Colors.red,
+      ));
+    }
     setState(() {
-      if (questionNumber < 2) questionNumber++;
+      _quizBrain.nextQuestion();
     });
   }
 }
